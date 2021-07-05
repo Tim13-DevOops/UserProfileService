@@ -69,6 +69,9 @@ def update_user_profile(user_profile_dict):
     if user.id is None:
         abort(403, "No user logged in")
 
+    if user_profile is None:
+        abort(404, "Username not found")
+
     if user_profile_dict["username"] != user.username:
         abort(400, "Profile does not belong to this user")
 
@@ -84,6 +87,9 @@ def delete_user_profile(username):
 
     if user.id is None:
         abort(403, "No user logged in")
+
+    if user_profile is None:
+        abort(404, "Username not found")
 
     if username != user.username:
         abort(400, "Profile does not belong to this user")
