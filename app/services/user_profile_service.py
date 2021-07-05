@@ -67,7 +67,7 @@ def update_user_profile(user_profile_dict):
     user_profile = query.first()
 
     if user.id is None:
-        abort(404, f"Invalid username {user_profile_dict['username']}")
+        abort(403, "No user logged in")
 
     if user_profile_dict["username"] != user.username:
         abort(400, "Profile does not belong to this user")
@@ -83,7 +83,7 @@ def delete_user_profile(username):
     user_profile = query.first()
 
     if user.id is None:
-        abort(404, f"Invalid username {username}")
+        abort(403, "No user logged in")
 
     if username != user.username:
         abort(400, "Profile does not belong to this user")

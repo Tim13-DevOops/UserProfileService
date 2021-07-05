@@ -154,7 +154,7 @@ def test_update_user_profile_sad(client):
         data=json.dumps(user_profile),
         content_type="application/json",
     )
-    assert result.status_code == 404
+    assert result.status_code == 403
 
 
 def test_delete_user_profile_happy(client):
@@ -171,4 +171,4 @@ def test_delete_user_profile_sad(client):
     )
     print(result)
     print(result.json)
-    assert result.status_code == 404
+    assert result.status_code == 403
