@@ -24,14 +24,15 @@ db = init_database(app)
 metrics = RESTfulPrometheusMetrics(app, api)
 
 from app.rbac import rbac
+
 rbac.setJWTManager(app)
 
-@app.route('/')
-def hello():
-    return jsonify({'message': 'Hello world'})
-
+from app.api.user_profile_api import UserProfileAPI, SingleUserProfileAPI
 
 migrate = Migrate(app, db)
+
+api.add_resource(UserProfileAPI, "/user_profile")
+api.add_resource(SingleUserProfileAPI, "/user_profile/<string:username>")
 
 from app.prometheus_metrics.prometheus_metrics import (
     init_metrics,
@@ -39,12 +40,14 @@ from app.prometheus_metrics.prometheus_metrics import (
 
 init_metrics()
 
+
 @api.representation("application/octet-stream")
 def output_stream(data, code, headers=None):
     """Makes a Flask response with a bytes body"""
     resp = make_response(data, code)
     resp.headers.extend(headers or {})
     return resp
+
 
 def db_migrate():
     with app.app_context():
